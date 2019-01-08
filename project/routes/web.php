@@ -3,25 +3,6 @@
 use App\Services\Twitter;
 use App\Repositories\UserRepository;
 use App\Notifications\SubscriptionRenewableFailed;
-
-
-### Service Container ----------------------------
-// app()->bind('example', function(){
-
-// 	return new \App\Example;
-// 	# dd(app('example'), app('example')) different instances
-// });
-
-// app()->singleton('example', function(){
-
-// 	return new \App\Example;
-// 	# dd(app('example'), app('example')) same instances
-// });
-
-
-
-// dd(app('App\Example')); # Autoresolving instead of bind
-
 /*
 ------------------------------------------------------
 
@@ -44,9 +25,7 @@ use App\Notifications\SubscriptionRenewableFailed;
 
 Route::get('/', function (Twitter $twitter) {
 
-	// dd($twitter);
-
-	// dd($users);
+	
 
 	$user = auth()->user();
 
@@ -55,41 +34,16 @@ Route::get('/', function (Twitter $twitter) {
     return view('welcome');
 });
 
-/*
+Route::get('/session', function(Request $request){
 
-    GET	/projects		(index)
-		
-	GET	/projects/create	(create) form
+	$request->session()->put('foobaar', 'aasdfadsf');
 
-	GET	/projects/1		(show)
+	$request->session()->get('foobaar', 'default');
 
-	GET	/projects/1/edit 	(edit)	form
+	// save all data at the form on page only for next request
+	$request->flash();
 
-	POST	/projects		(store)
-
-	PATCH	/projects/1		(update)
-
-	PUT	/projects/1		(update)
-
-	DELETE	/projects/1		(destroy)
-
-*/
-
-
-/*Route::get('/projects', 'ProjectsController@index');
-
-Route::get('/projects/create', 'ProjectsController@create');
-
-Route::get('/projects/{project}', 'ProjectsController@show');
-
-Route::post('/projects', 'ProjectsController@store');
-
-Route::get('/projects/{project}/edit', 'ProjectsController@edit');
-
-Route::patch('/projects/{project}', 'ProjectsController@update');
-
-Route::delete('/projects/{project}', 'ProjectsController@destroy');
-*/
+});
 
 Route::resource('projects', 'ProjectsController');
 // Route::resource('projects', 'ProjectsController')->middleware('can:update,project');
