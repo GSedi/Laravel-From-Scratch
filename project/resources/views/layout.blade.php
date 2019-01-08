@@ -85,7 +85,12 @@
                 </div>
                 <div class="links">
                         <li><a href="/projects">Projects</a></li>
-                        <li><a href="/projects/create">Create Project</a></li>
+                
+                        @if (Auth::check())
+                        <li><a href="/projects/create">Create Project</a></li>    
+                        @endif        
+                
+                        
                 </div>
 
                 <div class="container">
@@ -96,3 +101,8 @@
         </div>
     </body>
 </html>
+
+
+{{-- @can('update', $project)
+    <a href=""></a>    
+@endcan --}}

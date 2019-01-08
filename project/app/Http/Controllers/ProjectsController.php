@@ -8,9 +8,24 @@ use App\{
 
 class ProjectsController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('auth')->only(['methodname']);
+        // $this->middleware('auth')->except(['methodname']);
+        $this->middleware('auth');
+    }
+
+
     public function index(){
 
-        $projects = Project::all();
+        #auth()->id(); // authenticated user id or null
+
+        #auth()->user(); // authenticated user
+
+        #auth()->check(); //boolean
+
+        $projects = Project::where('owner_id', auth()->id())->get();
 
         // returns JSON format
         // return $projects;
@@ -22,6 +37,13 @@ class ProjectsController extends Controller
     }
 
     public function show(/*laravel route model binding*/Project $project){
+
+        // if ($project->owner_id != auth()->id()){
+        //     abort(403);
+        // }
+        #// abort_if($project->owner_id != auth()->id(), 403);
+        $this->authorize('update', $project);
+
 
         return view('project.show', compact('project'));
 
@@ -49,6 +71,10 @@ class ProjectsController extends Controller
 
         ]);
 
+        $validated['owner_id'] = auth()->id();
+
+        // dd($validated);
+
         // Project::create([
         //     'title' => request('title'),
 
@@ -64,12 +90,12 @@ class ProjectsController extends Controller
 
     public function edit(Project $project){
 
-
+        $this->authorize('update', $project);
         return view('project.edit', compact('project'));
     }
 
     public function update(Project $project){
-
+        $this->authorize('update', $project);
         $project->update(request(['title', 'description']));
 
         return redirect('/projects');
@@ -77,6 +103,7 @@ class ProjectsController extends Controller
 
     public function destroy(Project $project){
 
+        $this->authorize('update', $project);
         $project->delete();
 
         return redirect('/projects');

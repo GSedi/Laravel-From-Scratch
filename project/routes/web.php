@@ -43,7 +43,7 @@ use App\Repositories\UserRepository;
 
 Route::get('/', function (Twitter $twitter) {
 
-	dd($twitter);
+	// dd($twitter);
 
 	// dd($users);
 
@@ -87,8 +87,12 @@ Route::delete('/projects/{project}', 'ProjectsController@destroy');
 */
 
 Route::resource('projects', 'ProjectsController');
+// Route::resource('projects', 'ProjectsController')->middleware('can:update,project');
 
 
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
 
 Route::patch('/tasks/{task}', 'ProjectTasksController@update');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
