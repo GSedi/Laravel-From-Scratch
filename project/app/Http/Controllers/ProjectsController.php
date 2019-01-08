@@ -76,22 +76,8 @@ class ProjectsController extends Controller
 
         $validated['owner_id'] = auth()->id();
 
-        // dd($validated);
+        Project::create($validated);
 
-        // Project::create([
-        //     'title' => request('title'),
-
-        //     'description' => request('description')
-        // ]);
-
-        // Project::create(request(['title', 'description']));
-        $project = Project::create($validated);
-
-        \Mail::to($project->owner->email)->send(
-            new ProjectCreated($project)
-        );
-
-        // return $project;
         return redirect('/projects');
     }
 
