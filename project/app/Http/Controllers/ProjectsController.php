@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\{
     Project
 };
-use App\Mail\ProjectCreated;
+use App\Events\ProjectCreated;
 
 class ProjectsController extends Controller
 {
@@ -76,7 +76,9 @@ class ProjectsController extends Controller
 
         $validated['owner_id'] = auth()->id();
 
-        Project::create($validated);
+        $project = Project::create($validated);
+
+        event(new ProjectCreated($project));
 
         return redirect('/projects');
     }
