@@ -21,7 +21,14 @@ use App\Repositories\UserRepository;
 
 // dd(app('App\Example')); # Autoresolving instead of bind
 
+/*
+------------------------------------------------------
 
+		Sedvice Provider is a class that bootstraps a particular feature
+		or component of the Laravel Framework
+
+------------------------------------------------------
+*/
 
 /*
 |--------------------------------------------------------------------------
@@ -34,11 +41,11 @@ use App\Repositories\UserRepository;
 |
 */
 
-Route::get('/', function (UserRepository $users) {
+Route::get('/', function (Twitter $twitter) {
 
-	// dd(app(Twitter::class));
+	dd($twitter);
 
-	dd($users);
+	// dd($users);
 
     return view('welcome');
 });
