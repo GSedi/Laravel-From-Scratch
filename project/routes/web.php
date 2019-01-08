@@ -2,6 +2,7 @@
 
 use App\Services\Twitter;
 use App\Repositories\UserRepository;
+use App\Notifications\SubscriptionRenewableFailed;
 
 
 ### Service Container ----------------------------
@@ -46,6 +47,10 @@ Route::get('/', function (Twitter $twitter) {
 	// dd($twitter);
 
 	// dd($users);
+
+	$user = auth()->user();
+
+	$user->notify(new SubscriptionRenewableFailed);
 
     return view('welcome');
 });
