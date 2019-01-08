@@ -1,0 +1,20 @@
+
+	GET	/projects		(index)
+		
+	GET	/projects/create	(create) form
+
+	POST	/projects		(store)
+
+	GET	/projects/1		(show)
+
+	GET	/projects/1/edit 	(edit)	form
+
+	PATCH	/projects/1		(update)
+
+	PUT	/projects/1		(update)
+
+	DELETE	/projects/1		(destroy)
+
+
+
+	php artisan make:controller NameController -r
