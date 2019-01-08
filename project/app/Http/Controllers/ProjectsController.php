@@ -26,7 +26,9 @@ class ProjectsController extends Controller
 
         #auth()->check(); //boolean
 
-        $projects = Project::where('owner_id', auth()->id())->get();
+        // $projects = Project::where('owner_id', auth()->id())->get();
+
+        $projects = auth()->user()->projects;
 
         // returns JSON format
         // return $projects;
@@ -85,7 +87,7 @@ class ProjectsController extends Controller
         // Project::create(request(['title', 'description']));
         $project = Project::create($validated);
 
-        \Mail::to('jane@example.com')->send(
+        \Mail::to($project->owner->email)->send(
             new ProjectCreated($project)
         );
 
@@ -100,8 +102,24 @@ class ProjectsController extends Controller
     }
 
     public function update(Project $project){
+
         $this->authorize('update', $project);
-        $project->update(request(['title', 'description']));
+
+        $validated = request()->validate([
+
+            'title' => [
+                'required',
+                'min:3',
+                'max:255',
+            ],
+            'description' => [
+                'required',
+                'min:3',
+            ],
+
+        ]);
+
+        $project->update(request($validated)); 
 
         return redirect('/projects');
     }

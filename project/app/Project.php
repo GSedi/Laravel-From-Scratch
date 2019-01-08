@@ -13,6 +13,13 @@ class Project extends Model
         'title', 'description', 'owner_id',
     ];
 
+
+    public function owner(){
+
+        return $this->belongsTo(User::class);
+        
+    }
+
     public function tasks(){
 
         return $this->hasMany(Task::class);
