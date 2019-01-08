@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\{
     Project
 };
+use App\Mail\ProjectCreated;
 
 class ProjectsController extends Controller
 {
@@ -82,7 +83,11 @@ class ProjectsController extends Controller
         // ]);
 
         // Project::create(request(['title', 'description']));
-        Project::create($validated);
+        $project = Project::create($validated);
+
+        \Mail::to('jane@example.com')->send(
+            new ProjectCreated($project)
+        );
 
         // return $project;
         return redirect('/projects');
